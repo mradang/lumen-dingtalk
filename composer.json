@@ -1,0 +1,15 @@
+{
+    "name": "mradang/lumen-dingtalk",
+    "description": "lumen-dingtalk",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mradang",
+            "email": "mradang@163.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "mradang/dingtalk": "^1.1"
+    }
+}
