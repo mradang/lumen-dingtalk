@@ -3,7 +3,7 @@
 namespace mradang\LumenDingtalk\Controllers;
 
 use Illuminate\Http\Request;
-use mradang\LumenDingtalk\Services\DingTalkService;
+use mradang\LumenDingtalk\DingTalk\Client as DingTalkClient;
 
 class DingTalkController extends Controller {
 
@@ -14,7 +14,12 @@ class DingTalkController extends Controller {
         ]);
 
         $jsApiList = explode('|', $request->jsApiList);
-        return DingTalkService::config($request->url, $jsApiList);
+
+        $allow_sites = explode('|', config('dingtalk.sites'));
+        $base_url = explode('?', $request->url)[0];
+        if (in_array($base_url, $allow_sites)) {
+            return DingTalkClient::config($request->url, $jsApiList);
+        }
     }
 
 }

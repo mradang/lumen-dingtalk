@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
-use mradang\DingTalk\AppClient as DingTalkAppClient;
+use mradang\LumenDingtalk\DingTalk\Client as DingTalkAppClient;
 
 class DingTalkService {
 

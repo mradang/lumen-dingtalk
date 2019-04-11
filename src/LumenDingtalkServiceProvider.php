@@ -9,6 +9,9 @@ class LumenDingtalkServiceProvider extends ServiceProvider {
     public function boot() {
         $this->configure();
         $this->registerRoutes();
+        if (!class_exists('DingTalk')) {
+            class_alias('mradang\LumenDingtalk\DingTalk\DingTalk', 'DingTalk');
+        }
     }
 
     protected function configure() {
@@ -19,14 +22,9 @@ class LumenDingtalkServiceProvider extends ServiceProvider {
         );
 
         // 初始化钉钉SDK
-        \mradang\DingTalk\DingTalk::init([
-            // 基础配置
+        \mradang\LumenDingtalk\DingTalk\DingTalk::init([
             'corpid' => config('dingtalk.corpid'),
             'agentid' => config('dingtalk.agentid'),
-
-            // 2018.12.17 之前的应用，请配置 corpsecret
-            'corpsecret' => config('dingtalk.corpsecret'),
-            // 2018.12.17 之后的应用，请配置 appkey 和 appsecret
             'appkey' => config('dingtalk.appkey'),
             'appsecret' => config('dingtalk.appsecret'),
         ]);

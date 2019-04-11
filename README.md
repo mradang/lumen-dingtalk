@@ -1,9 +1,8 @@
 # lumen Dingtalk
 
-整合 mradang/dingtalk 和自建钉钉通讯录同步接口，触发员工和部门数据变更事件
+封装钉钉接口，整合自建钉钉通讯录同步接口，触发员工和部门数据变更事件
 
 ## 依赖
-- mradang/dingtalk
 - guzzlehttp/guzzle
 
 ## 安装
@@ -14,10 +13,8 @@ composer require mradang/lumen-dingtalk
 ## 配置
 1. 添加 .env 环境变量，使用默认值时可省略
 ```
-# 钉钉配置，2018.12.17 之后的应用不需要DINGTALK_CORPSECRET
 DINGTALK_CORPID=dingxxxxxxx
 DINGTALK_AGENTID=xxxxxxxx
-DINGTALK_CORPSECRET=xxxxxxxx
 DINGTALK_APPKEY=xxxxxxxx
 DINGTALK_APPSECRET=xxxxxxxx
 DINGTALK_ALLOW_SITE=http://xx.xx.com/|http://localhost:8080/
@@ -66,3 +63,27 @@ try {
 > array $dept
 - mradang\LumenDingtalk\Events\DepartmentDeleteEvent
 > string $deptid
+
+## 钉钉接口调用示例
+
+### 发送工作通知消息
+
+```
+请求方式：POST（HTTPS）
+请求地址：https://oapi.dingtalk.com/topapi/message/corpconversation/asyncsend_v2?access_token=ACCESS_TOKEN
+```
+
+```php
+$params = [
+    'agent_id' => env('DINGTALK_AGENTID'),
+    'userid_list' => '0841582759859766',
+    'msg' => [
+        'msgtype' => 'text',
+        'text' => [
+            'content' => '当前时间：'.date('Y-m-d H:i:s'),
+        ],
+    ],
+];
+
+$ret = \DingTalk::post('/topapi/message/corpconversation/asyncsend_v2', $params);
+```
