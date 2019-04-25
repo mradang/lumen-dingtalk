@@ -36,15 +36,7 @@ class Crypto extends DingTalk {
     }
 
     public static function aes_key () {
-        $key = md5(__FILE__ . __FUNCTION__);
-
-        if ($aes_key = Cache::get($key)) {
-            return $aes_key;
-        } else {
-            $aes_key = self::getNonceStr(43);
-            Cache::forever($key, $aes_key);
-            return $aes_key;
-        }
+        return substr(md5(gethostname()).md5(__FILE__.__FUNCTION__), 0, 43);
     }
 
     // 加密
