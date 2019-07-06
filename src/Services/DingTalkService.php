@@ -18,8 +18,14 @@ class DingTalkService {
         }
     }
 
+    public static function setLastSyncTimestamp($timestamp) {
+        $cache_name = config('dingtalk.sync_timestamp_cache_name');
+        Cache::forever($cache_name, $timestamp);
+    }
+
     public static function sync() {
-        $last_timestamp = Cache::get('dingtalk_last_timestamp', 0);
+        $cache_name = config('dingtalk.sync_timestamp_cache_name');
+        $last_timestamp = Cache::get($cache_name, 0);
 
         $changes = self::getChangeRecord($last_timestamp);
         if (empty($changes)) {
@@ -46,7 +52,7 @@ class DingTalkService {
             }
         }
 
-        Cache::forever('dingtalk_last_timestamp', $last_timestamp);
+        Cache::forever($cache_name, $last_timestamp);
     }
 
     public static function getChangeRecord($last_timestamp) {
